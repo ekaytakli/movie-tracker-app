@@ -45,7 +45,7 @@ function addFilm(e) {
   const url = urlElement.value.trim();
 
   if (title === "" || director === "" || url === "") {
-    UI.displayMessage("Tüm alanları doldurun...", "danger");
+    UI.displayMessage("Please fill in all fields...", "danger");
     return;
   }
 
@@ -57,13 +57,13 @@ function addFilm(e) {
   );
 
   if (Storage.isFilmExists(newFilm)) {
-    UI.displayMessage("Bu film zaten eklenmiş...", "warning");
+    UI.displayMessage("This movie has already been added...", "warning");
     return;
   }
 
   Storage.addFilmToStorage(newFilm);
 UI.refreshFilms(getVisibleFilms());
-UI.displayMessage("Film başarıyla eklendi...", "success");
+UI.displayMessage("Movie added successfully...", "success");
 
 UI.clearInputs(titleElement, directorElement, urlElement);
 movieSearchInput.value = "";
@@ -79,39 +79,39 @@ function handleFilmActions(e) {
     e.preventDefault();
     Storage.deleteFilmFromStorage(filmId);
     UI.refreshFilms(getVisibleFilms());
-    UI.displayMessage("Film silindi...", "success");
+    UI.displayMessage("Movie deleted successfully...", "success");
   }
 
   if (target.classList.contains("toggle-favorite")) {
     e.preventDefault();
     Storage.toggleFavorite(filmId);
     UI.refreshFilms(getVisibleFilms());
-    UI.displayMessage("Favori durumu güncellendi...", "info");
+    UI.displayMessage("Favorite status updated...", "info");
   }
 
   if (target.classList.contains("toggle-status")) {
     e.preventDefault();
     Storage.toggleStatus(filmId);
     UI.refreshFilms(getVisibleFilms());
-    UI.displayMessage("Film durumu güncellendi...", "info");
+    UI.displayMessage("Movie status updated...", "info");
   }
 
   if (target.classList.contains("star")) {
     const rating = Number(target.dataset.rating);
     Storage.updateRating(filmId, rating);
     UI.refreshFilms(getVisibleFilms());
-    UI.displayMessage("Puan güncellendi...", "info");
+    UI.displayMessage("Rating updated...", "info");
   }
 }
 
 function clearAllFilms(e) {
   e.preventDefault();
 
-  if (confirm("Emin misiniz?")) {
+  if (confirm("Are you sure?")) {
     Storage.clearAllFilmsFromStorage();
     UI.clearAllFilmsFromUI();
     UI.updateFilmCount(0);
-    UI.displayMessage("Tüm filmler silindi...", "success");
+    UI.displayMessage("All movies deleted successfully...", "success");
   }
 }
 
@@ -160,7 +160,7 @@ function getVisibleFilms() {
   const movieName = movieSearchInput.value.trim();
 
   if (movieName === "") {
-    UI.displayMessage("Lütfen bir film adı girin...", "warning");
+    UI.displayMessage("Please enter a movie name...", "warning");
     return;
   }
 
@@ -176,14 +176,14 @@ function getVisibleFilms() {
       urlElement.value = "";
       window.selectedMovieYear = "Bilinmiyor";
 
-      UI.displayMessage(data.Error || "Film bulunamadı...", "danger");
+      UI.displayMessage(data.Error || "Movie not found...", "danger");
       return;
     }
 
     renderSearchResults(data.Search);
   } catch (error) {
     console.error("API ERROR:", error);
-    UI.displayMessage("API hatası oluştu...", "danger");
+    UI.displayMessage("An API error occurred...", "danger");
   }
 }
 function renderSearchResults(movies) {
@@ -237,7 +237,7 @@ function renderSearchResults(movies) {
     window.selectedMovieYear = data.Year || "Bilinmiyor";
 
     searchResults.innerHTML = "";
-    UI.displayMessage("Film seçildi ve form dolduruldu...", "success");
+    UI.displayMessage("Movie selected and form filled successfully...", "success");
   } catch (error) {
     console.error("SELECT MOVIE ERROR:", error);
     UI.displayMessage("Film seçilirken hata oluştu...", "danger");
